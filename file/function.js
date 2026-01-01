@@ -18,7 +18,20 @@ $(window).resize(function() {
 		this.each(function() {
 			var $ele = $(this), str = $ele.html(), progress = 0;
 			$ele.html('');
-			var timer = setInterval(function() {
+
+			var step = function() {
+				// support <pause>ms</pause> marker to insert delays
+				if (str.substr(progress, 7) === '<pause>') {
+					var close = str.indexOf('</pause>', progress);
+					if (close !== -1) {
+						var content = str.substring(progress + 7, close);
+						var ms = parseInt(content, 10) || 2000;
+						progress = close + 8;
+						setTimeout(step, ms);
+						return;
+					}
+				}
+
 				var current = str.substr(progress, 1);
 				if (current == '<') {
 					progress = str.indexOf('>', progress) + 1;
@@ -26,10 +39,12 @@ $(window).resize(function() {
 					progress++;
 				}
 				$ele.html(str.substring(0, progress) + (progress & 1 ? '_' : ''));
-				if (progress >= str.length) {
-					clearInterval(timer);
+				if (progress < str.length) {
+					setTimeout(step, 75);
 				}
-			}, 75);
+			};
+
+			step();
 		});
 		return this;
 	};

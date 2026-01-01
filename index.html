@@ -120,15 +120,10 @@
         });
 
         var seedAnimate = eval(Jscex.compile("async", function () {
-            var t = 0;
+            seed.draw();
             while (hold) {
-                seed.pulse = 1 + 0.09 * Math.abs(Math.sin(t));
-                seed.clear();
-                seed.draw();
-                t += 0.25;
-                $await(Jscex.Async.sleep(40));
+                $await(Jscex.Async.sleep(10));
             }
-            seed.pulse = 1;
             while (seed.canScale()) {
                 seed.scale(0.95);
                 $await(Jscex.Async.sleep(10));
@@ -167,26 +162,6 @@
             canvas.css("background", "#ffe");
             $await(Jscex.Async.sleep(300));
             canvas.css("background", "none");
-
-            // Start a short heartbeat animation on the second page (seed area)
-            (function() {
-                var start = (new Date()).getTime();
-                var duration = 10000; // run heartbeat for 10s
-                var t = 0;
-                var beatAnimate = eval(Jscex.compile("async", function () {
-                    while ((new Date()).getTime() - start < duration) {
-                        seed.pulse = 1 + 0.12 * Math.abs(Math.sin(t));
-                        seed.clear();
-                        seed.draw();
-                        t += 0.25;
-                        $await(Jscex.Async.sleep(80));
-                    }
-                    seed.pulse = 1;
-                    seed.clear();
-                    seed.draw();
-                }));
-                beatAnimate().start();
-            })();
         }));
 
         var textAnimate = eval(Jscex.compile("async", function () {

@@ -90,6 +90,7 @@
             color  : color,
             radius : 5,
         }
+        this.pulse = 1;
     }
     Seed.prototype = {
         draw: function() {
@@ -122,7 +123,7 @@
         drawHeart: function() {
             var ctx = this.tree.ctx, heart = this.heart;
             var point = heart.point, color = heart.color, 
-                scale = heart.scale;
+                scale = heart.scale * (this.pulse || 1);
             ctx.save();
             ctx.fillStyle = color;
             ctx.translate(point.x, point.y);
@@ -154,7 +155,7 @@
         drawText: function() {
             var ctx = this.tree.ctx, heart = this.heart;
             var point = heart.point, color = heart.color, 
-                scale = heart.scale;
+                scale = heart.scale * (this.pulse || 1);
             ctx.save();
             ctx.strokeStyle = color;
             ctx.fillStyle = color;
@@ -169,7 +170,7 @@
             ctx.scale(0.75, 0.75);
             ctx.font = "12px,Verdana"; // 字号肿么没有用? (ˉ(∞)ˉ)
             ctx.fillText("Click Me:) ", 30, -5);
-            ctx.fillText("Birthday Queen !", 28, 10);
+            ctx.fillText("Dear M", 28, 10);
             ctx.restore();
         },
         clear: function() {
@@ -702,7 +703,7 @@
             ctx.scale(0.75, 0.75);
             ctx.font = "12px,Verdana"; // 字号肿么没有用? (ˉ(∞)ˉ)
             ctx.fillText("Click Me:) ", 30, -5);
-            ctx.fillText("Birthday Queen !", 28, 10);
+            ctx.fillText("Dear M", 28, 10);
             ctx.restore();
         },
         clear: function() {
